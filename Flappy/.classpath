@@ -6,10 +6,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="C:/dev/flappyBird/lwjgl-2.9.3/jar/lwjgl.jar">
-		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="C:/dev/flappyBird/lwjgl-2.9.3/native/windows"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/LWJGL_3"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

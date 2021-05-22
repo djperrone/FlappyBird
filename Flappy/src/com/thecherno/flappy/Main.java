@@ -1,25 +1,24 @@
 package com.thecherno.flappy;
 
+
+
+
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL20.*;
-import static org.lwjgl.opengl.GL30.*;
+import static org.lwjgl.system.MemoryUtil.NULL;
+
+import org.lwjgl.glfw.GLFWVidMode;
+
+import static org.lwjgl.glfw.GLFW.*;
 
 
-import org.lwjgl.LWJGLException;
-import org.lwjgl.opengl.ContextAttribs;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
-import org.lwjgl.opengl.PixelFormat;
-
-import com.thecherno.flappy.graphics.Shader;
-import com.thecherno.flappy.math.Vector3f;
-import com.thecherno.flappy.util.ShaderUtils;
 
 public class Main implements Runnable {
 	
 	private int width = 1280;
 	private int height = 720;
-	private String title = "Flappy";
+	//private String title = "Flappy";
+	
+	private long window;
 			
 	private boolean running = false;
 	private Thread thread;
@@ -27,56 +26,59 @@ public class Main implements Runnable {
 	public void start()
 	{
 		running = true;
-		thread = new Thread(this, "Display");
+		thread = new Thread(this, "Game");
 		thread.start();
 	}
 	
 	private void init()
 	{
-		String version = glGetString(GL_VERSION);
-		System.out.println(version);
+		if(glfwInit() != true)
+		{
+			
+		}
 		
-		glClearColor(1.0f,1.0f,1.0f,1.0f);
-		Shader.loadAll();
+		glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
+		window = glfwCreateWindow(width, height, "flappy", 0, 0);
+		
+		if(window == 0)
+		{
+			//todo
+		}
+		
+		GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+		
+		
+		glfwSetWindowPos(window,(vidmode.width() - width)/2,(vidmode.height() - height)/2);
+		glfwMakeContextCurrent(window);
+		glfwShowWindow(window);
+//		
+	
 	}
 	
 	public void run()
 	{
-		try {
-			Display.setDisplayMode(new DisplayMode(width, height));
-			Display.setTitle(title);
-			ContextAttribs context = new ContextAttribs(3,3);
-			if(System.getProperty("os.name").contains("Mac")) context = new ContextAttribs(3,2);
-			Display.create(new PixelFormat(), context.withProfileCore(true));
-		} catch (LWJGLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}		
-		
-		
 		init();
-		
-		int vao = glGenVertexArrays();
-		glBindVertexArray(vao);
-		
-		Shader shader = Shader.BASIC;
-		shader.enable();
-		shader.setUnfirom3f("col", new Vector3f(0.8f,0.3f,0.3f));
-		
 		while(running)
 		{
+			update();
 			render();
-			Display.update();
-			if(Display.isCloseRequested()) running = false;
+			
+			if(glfwWindowShouldClose(window) != false)
+			{
+				running = false;
+			}
 		}
-		Display.destroy();
-		
+	}
+	
+	private void update()
+	{
+		glfwPollEvents();
 	}
 	
 	private void render()
 	{
-		glClear(GL_COLOR_BUFFER_BIT);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glfwSwapBuffers(window);
+				
 	}
 	
 	public static void main(String[] args)
