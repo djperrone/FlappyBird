@@ -1,0 +1,5 @@
+package com.thecherno.flappy.graphics;
+
+public class Texture {
+
+}

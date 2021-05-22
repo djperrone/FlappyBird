@@ -1,0 +1,38 @@
+package com.thecherno.flappy;
+
+import org.lwjgl.system.windows.DISPLAY_DEVICE;
+import org.lwjgl.system.*;
+import org.lwjgl.*;
+
+public class Main implements Runnable {
+	
+	private int width = 1280;
+	private int height = 720;
+	private String title = "Flappy";
+			
+	private boolean running = false;
+	private Thread thread;
+	
+	public void start()
+	{
+		running = true;
+		thread = new Thread(this, "Display");
+		thread.start();
+	}
+	
+	public void run()
+	{
+		try {
+			Display.SetDisplayMode(new Display,pde(width, height));
+		}catch(LWJGLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public static void main(String[] args)
+	{
+		
+	}
+
+}
