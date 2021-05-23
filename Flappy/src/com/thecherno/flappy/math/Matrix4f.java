@@ -1,9 +1,13 @@
 package com.thecherno.flappy.math;
 import static java.lang.Math.*;
 
+import java.nio.FloatBuffer;
+
+import com.thecherno.flappy.util.BufferUtils;
+
 public class Matrix4f {
 	
-	public float[] matrix = new float[4*4];
+	public float[] elements = new float[4*4];
 	
 	public static Matrix4f identity()
 	{
@@ -11,12 +15,12 @@ public class Matrix4f {
 		
 		for(int i =0; i < 4 * 4;i++)
 		{
-			result.matrix[i] = 0.0f;
+			result.elements[i] = 0.0f;
 		}
-		result.matrix[0+0*4] = 1.0f;
-		result.matrix[1+1*4] = 1.0f;
-		result.matrix[2+2*4] = 1.0f;
-		result.matrix[3+3*4] = 1.0f;
+		result.elements[0+0*4] = 1.0f;
+		result.elements[1+1*4] = 1.0f;
+		result.elements[2+2*4] = 1.0f;
+		result.elements[3+3*4] = 1.0f;
 		
 		return result;			
 	}
@@ -31,22 +35,26 @@ public class Matrix4f {
 				float sum = 0.0f;
 				for(int e = 0; e < 4;e++)
 				{
-					sum += this.matrix[e+y*4] * matrix.matrix[x+e*4];
+					sum += this.elements[x+e*4] * matrix.elements[e+y*4];
 				}
-				result.matrix[x+y*4] = sum;
+				result.elements[x+y*4] = sum;
 			}
 		}
 		
 		return result;
 	}
+	// 00 01 02 03
+	// 04 05 06 07
+	// 08 09 10 11 
+	// 12 13 14 15
 	
 	public static Matrix4f translate(Vector3f vector)
 	{
 		Matrix4f result = identity();
 		
-		result.matrix[0+3*4] = vector.x;
-		result.matrix[1+3*4] = vector.y;
-		result.matrix[2+3*4] = vector.z;
+		result.elements[0+3*4] = vector.x;
+		result.elements[1+3*4] = vector.y;
+		result.elements[2+3*4] = vector.z;
 		
 		return result;
 	}
@@ -55,14 +63,14 @@ public class Matrix4f {
 	{
 		Matrix4f result = identity();
 		float r = (float) toRadians(angle);
-		float cos = (float)cos(r);
-		float sin = (float) sin(r);
+		float cos = (float)Math.cos(r);
+		float sin = (float) Math.sin(r);
 		
-		result.matrix[0+0*4] = cos;
-		result.matrix[1+0*4] = sin;
+		result.elements[0+0*4] = cos;
+		result.elements[1+0*4] = sin;
 		
-		result.matrix[0+1*4] = -sin;
-		result.matrix[1+1*4] = cos;		
+		result.elements[0+1*4] = -sin;
+		result.elements[1+1*4] = cos;		
 		
 		return result;				
 	}
@@ -77,34 +85,39 @@ public class Matrix4f {
 //		float sin = (float) sin(r);
 //		float omc = 1.0f-cos;
 //		
-//		result.matrix[0+0*4] = x * omc + cos;
-//		result.matrix[1+0*4] = y * x * omc + z * sin;
-//		result.matrix[2+0*4] = x * z + omc-y*sin;
+//		result.elements[0+0*4] = x * omc + cos;
+//		result.elements[1+0*4] = y * x * omc + z * sin;
+//		result.elements[2+0*4] = x * z + omc-y*sin;
 //		
-//		result.matrix[0+1*4] = x*y*omc-z*sin;
-//		result.matrix[1+1*4] = y * omc + cos;
-//		result.matrix[2+1*4] = y * z * omc + x * sin;
+//		result.elements[0+1*4] = x*y*omc-z*sin;
+//		result.elements[1+1*4] = y * omc + cos;
+//		result.elements[2+1*4] = y * z * omc + x * sin;
 //				
-//		result.matrix[0+2*4] = x * z + omc + y * sin;		
-//		result.matrix[1+2*4] = y * z + omc - x * sin;
-//		result.matrix[2+2*4] = z * omc + cos;
+//		result.elements[0+2*4] = x * z + omc + y * sin;		
+//		result.elements[1+2*4] = y * z + omc - x * sin;
+//		result.elements[2+2*4] = z * omc + cos;
 //		
 //		return result;
 //	}
 	
 	public static Matrix4f orthographic(float left, float right, float bottom, float top, float near, float far)
 	{
-		Matrix4f result = new Matrix4f();
+		Matrix4f result = identity();
 		
-		result.matrix[0+0*4] = 2.0f / (right-left);
-		result.matrix[1+1*4] = 2.0f / (top-bottom);
-		result.matrix[2+2*4] = 2.0f / (near - far);
+		result.elements[0+0*4] = 2.0f / (right-left);
+		result.elements[1+1*4] = 2.0f / (top-bottom);
+		result.elements[2+2*4] = 2.0f / (near - far);
 		
-		result.matrix[0+3*4] = (left+right)/(left-right);
-		result.matrix[1+3*4] = (bottom+top)/(bottom-top);
-		result.matrix[2+3*4] = (near+far) / (far-near);
+		result.elements[0+3*4] = (left+right)/(left-right);
+		result.elements[1+3*4] = (bottom+top)/(bottom-top);
+		result.elements[2+3*4] = (far+near) / (far-near);
 		
 		return result;
+	}
+	
+	public FloatBuffer toFloatBuffer()
+	{
+		return BufferUtils.createFloatBuffer(elements);
 	}
 	
 	

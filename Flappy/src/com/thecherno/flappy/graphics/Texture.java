@@ -51,13 +51,13 @@ public class Texture {
 			data[i] = a << 24 | b << 16 | g <<8 | r;
 		}
 		
-		int tex = glGenTextures();
-		glBindTexture(GL_TEXTURE_2D,tex);
+		int result = glGenTextures();
+		glBindTexture(GL_TEXTURE_2D,result);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,GL_NEAREST);		
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,GL_NEAREST);		
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,width,height,0,GL_RGBA,GL_UNSIGNED_BYTE, BufferUtils.createIntBuffer(data));
 		glBindTexture(GL_TEXTURE_2D,0);
-		return tex;
+		return result;
 	}
 	
 	public int getWidth()
@@ -75,6 +75,15 @@ public class Texture {
 		return texture;
 	}
 	
+	public void bind()
+	{
+		glBindTexture(GL_TEXTURE_2D,texture);
+	}
+	
+	public void unbind()
+	{
+		glBindTexture(GL_TEXTURE_2D,0);
+	}
 	
 	
 	

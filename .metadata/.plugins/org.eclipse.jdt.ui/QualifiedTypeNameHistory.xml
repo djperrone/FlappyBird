@@ -10,7 +10,6 @@
     <fullyQualifiedTypeName name="java.awt.image.BufferedImage"/>
     <fullyQualifiedTypeName name="java.nio.ByteOrder"/>
     <fullyQualifiedTypeName name="org.lwjgl.BufferUtils"/>
-    <fullyQualifiedTypeName name="com.thecherno.flappy.util.BufferUtils"/>
     <fullyQualifiedTypeName name="com.thecherno.flappy.util.ShaderUtils"/>
     <fullyQualifiedTypeName name="org.lwjgl.opengl.GL20"/>
     <fullyQualifiedTypeName name="com.thecherno.flappy.math.Vector3f"/>
@@ -18,6 +17,12 @@
     <fullyQualifiedTypeName name="org.lwjgl.opengl.GL11"/>
     <fullyQualifiedTypeName name="org.lwjgl.system.MathUtil"/>
     <fullyQualifiedTypeName name="org.lwjgl.system.MemoryUtil"/>
-    <fullyQualifiedTypeName name="org.lwjgl.glfw.GLFW"/>
     <fullyQualifiedTypeName name="org.lwjgl.glfw.GLFWVidMode"/>
+    <fullyQualifiedTypeName name="com.thecherno.flappy.input.Input"/>
+    <fullyQualifiedTypeName name="java.lang.Object"/>
+    <fullyQualifiedTypeName name="org.lwjgl.glfw.GLFW"/>
+    <fullyQualifiedTypeName name="org.lwjgl.opengl.GL"/>
+    <fullyQualifiedTypeName name="com.thecherno.flappy.util.BufferUtils"/>
+    <fullyQualifiedTypeName name="com.thecherno.flappy.math.Matrix4f"/>
+    <fullyQualifiedTypeName name="org.lwjgl.opengl.GL30"/>
 </qualifiedTypeNameHistroy>

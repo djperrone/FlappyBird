@@ -29,6 +29,7 @@ public class ShaderUtils {
 		{
 			System.err.println("Failed to compile vertex shader!");
 			System.err.println(glGetShaderInfoLog(vertID, 2048));
+			return -1;
 		}
 		
 		glCompileShader(fragID);
@@ -36,12 +37,16 @@ public class ShaderUtils {
 		{
 			System.err.println("Failed to compile fragment shader!");
 			System.err.println(glGetShaderInfoLog(fragID, 2048));
+			return -1;
 		}
 		
 		glAttachShader(program, vertID);
 		glAttachShader(program,fragID);
 		glLinkProgram(program);
 		glValidateProgram(program);
+		
+		glDeleteShader(vertID);
+		glDeleteShader(fragID);
 		
 		return program;
 	}
